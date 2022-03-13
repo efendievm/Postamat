@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Админ</title>
+    <title>Страница админа</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row m-1 p-1" id="body">
+        <div class="col-2">
+            <div class="d-grid gap-2">
+                <button class="btn btn-block btn-outline-primary p-1 m-1" id="postamatsButton">Постаматы</button>
+                <button class="btn btn-block btn-outline-secondary p-1 m-1" id="productsButton">Продукты</button>
+                <button class="btn btn-block btn-outline-secondary p-1 m-1" id="ordersButton">Заказы</button>
+                <button class="btn btn-block btn-outline-secondary p-1 m-1" id="exitButton">Выйти</button>
+            </div>
+        </div>
+
+        <div class="col-10" id="postamatsView" style="display:block">
+            <form name="postamatForm">
+                <input type="hidden" name="id" value="0" />
+                <div class="form-group row">
+                    <label for="number" class="col-sm-2 col-form-label">Номер:</label>
+                    <input class="form-control col-sm-10" name="number" />
+                </div>
+                <div class="form-group row">
+                    <label for="address" class="col-sm-2 col-form-label">Адрес:</label>
+                    <input class="form-control col-sm-10" name="address" />
+                </div>
+                <div class="form-group row">
+                    <label for="isWorking" class="col-sm-2 col-form-label">Состояние:</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline" style="padding-top:7px">
+                            <input class="form-check-input" type="radio" name="isWorking" id="yes">
+                            <label class="form-check-label" for="yes">Открыт</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="isWorking" id="no">
+                            <label class="form-check-label" for="no">Закрыт</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a id="postamatFormReset" class="btn btn-primary">Сбросить</a>
+                </div>
+            </form>
+            <table class="table table-condensed table-striped  col-md-12">
+                <thead><tr><th>id</th><th>Номер</th><th>Адрес</th><th>Состояние</th><th></th></tr></thead>
+                <tbody id="postamatsTable">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-10" id="productsView" style="display:none">
+            <form name="productForm">
+                <input type="hidden" name="id" value="0" />
+                <div class="form-group row">
+                    <label for="name" class="col-sm-2 col-form-label">Название:</label>
+                    <input class="form-control col-sm-10" name="name" />
+                </div>
+                <div class="form-group row">
+                    <label for="price" class="col-sm-2 col-form-label">Цена:</label>
+                    <input class="form-control col-sm-10" name="price" />
+                </div>
+                <div class="panel-body">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a id="productFormReset" class="btn btn-primary">Сбросить</a>
+                </div>
+            </form>
+            <table class="table table-condensed table-striped  col-md-12">
+                <thead><tr><th>id</th><th>Название</th><th>Цена</th><th></th></tr></thead>
+                <tbody id="productsTable">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-10" id="ordersView" style="display:none">
+            <form name="orderForm">
+                <input type="hidden" name="id" value="0" />
+                <div class="form-group row">
+                    <label for="postamatNumber" class="col-sm-2 col-form-label">Постамат:</label>
+                    <input class="form-control col-sm-10" name="postamatNumber" />
+                </div>
+                <div class="form-group row">
+                    <label for="status" class="col-sm-2 col-form-label">Статус:</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline" style="padding-top:7px">
+                            <input class="form-check-input" type="radio" name="status" id="registered">
+                            <label class="form-check-label" for="registered">Зарегистрирован</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="accepted">
+                            <label class="form-check-label" for="accepted">Принят на складе</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="issued">
+                            <label class="form-check-label" for="issued">Выдан курьеру</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="deliveredToPost">
+                            <label class="form-check-label" for="accepted">Доставлен в постамат</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="deliveredToRecipient">
+                            <label class="form-check-label" for="deliveredToRecipient">Доставлен получателю</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a id="orderFormReset" class="btn btn-primary">Сбросить</a>
+                </div>
+            </form>
+            <table class="table table-condensed table-striped  col-md-12">
+                <thead><tr><th>id</th><th>Покупатель</th><th>Имя</th><th>Телефон</th><th>Постамат</th><th>Цена</th><th>Статус</th><th></th></tr></thead>
+                <tbody id="ordersTable">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function checkRole() {
+            const token = sessionStorage.getItem("accessToken");
+            const response = await fetch("/role/admin", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+
+            if (response.ok === true) {
+                var data = await response.json();
+                GetPostamats();
+            }
+            else {
+                document.getElementById("body").style.display = "none";
+            }
+        }
+        checkRole();
+    </script>
+
+    <script type="text/javascript" src="js/AdminPostamats.js"></script>
+    <script type="text/javascript" src="js/AdminProducts.js"></script>
+    <script type="text/javascript" src="js/AdminOrders.js"></script>
+
+</body>
+
+</html>

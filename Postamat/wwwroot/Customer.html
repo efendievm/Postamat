@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Покупатель</title>
+    <title>Страница покупателя</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="row m-1 p-1" id="body">
+        <div class="col-2">
+            <div class="d-grid gap-2">
+                <button class="btn btn-block btn-outline-primary p-1 m-1" id="postamatsButton">Постаматы</button>
+                <button class="btn btn-block btn-outline-secondary p-1 m-1" id="productsButton">Продукты</button>
+                <button class="btn btn-block btn-outline-secondary p-1 m-1" id="ordersButton">Заказы</button>
+                <button class="btn btn-block btn-outline-secondary p-1 m-1" id="exitButton">Выйти</button>
+            </div>
+        </div>
+
+        <div class="col-10" id="postamatsView" style="display:block">
+            <form name="postamatForm">
+                <div class="form-group row">
+                    <label for="number" class="col-sm-2 col-form-label">Номер:</label>
+                    <input class="form-control col-sm-10" name="number" readonly />
+                </div>
+                <div class="form-group row">
+                    <label for="address" class="col-sm-2 col-form-label">Адрес:</label>
+                    <input class="form-control col-sm-10" name="address" readonly />
+                </div>
+            </form>
+            <table class="table table-condensed table-striped  col-md-12">
+                <thead><tr><th>Номер</th><th></th></tr></thead>
+                <tbody id="postamatsTable">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-10" id="productsView" style="display:none">
+            <table class="table table-condensed table-striped  col-md-12">
+                <thead><tr><th>Название</th><th>Цена</th></tr></thead>
+                <tbody id="productsTable">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-10" id="ordersView" style="display:none">
+            <table class="table table-condensed table-striped  col-md-12" id="ordersTable">
+                <thead><tr><th>Номер</th><th>Имя покупателя</th><th>Телефон</th><th>Постамат</th><th>Цена</th><th>Статус</th><th></th></tr></thead>
+                <tbody id="ordersTableBody">
+                </tbody>
+            </table>
+            <button class="btn btn-primary" id="createOrder">Создать</button>
+            <form name="orderForm" style="display:none">
+                <input type="hidden" name="id" value="0" />
+                <div class="form-group row">
+                    <label for="customerName" class="col-sm-2 col-form-label">Имя покупателя:</label>
+                    <input class="form-control col-sm-10" name="customerName" />
+                </div>
+                <div class="form-group row">
+                    <label for="phoneNumber" class="col-sm-2 col-form-label">Телефон:</label>
+                    <input class="form-control col-sm-10" name="phoneNumber" />
+                </div>
+                <div class="form-group row">
+                    <label for="postamatNumber" class="col-sm-2 col-form-label">Постамат:</label>
+                    <input class="form-control col-sm-10" name="postamatNumber" readonly />
+                </div>
+                <div class="form-group row">
+                    <label for="status" class="col-sm-2 col-form-label">Статус:</label>
+                    <input class="form-control col-sm-10" name="status" readonly />
+                </div>
+                <div class="form-group row">
+                    <label for="price" class="col-sm-2 col-form-label">Цена:</label>
+                    <input class="form-control col-sm-10" name="price" readonly />
+                </div>
+                <div class="form-group row">
+                    <table class="table table-condensed table-striped  col-md-12">
+                        <thead><tr><th>Название</th><th>Цена</th><th>Количество</th><th></th></tr></thead>
+                        <tbody id="customerProductsTable">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel-body">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a id="returnToOrders" class="btn btn-primary">Назад</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        async function checkRole() {
+            const token = sessionStorage.getItem("accessToken");
+            const response = await fetch("/role/customer", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Authorization": "Bearer " + token
+                }
+            });
+
+            if (response.ok === true) {
+                var data = await response.json();
+                GetPostamats();
+            }
+            else {
+                document.getElementById("body").style.display = "none";
+            }
+        }
+        checkRole();
+    </script>
+
+    <script type="text/javascript" src="js/Customer.js"></script>
+</body>
+</html>

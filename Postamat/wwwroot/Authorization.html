@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Authorization</title>
+    <title>Авторизация</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <form name="authorizationForm">
+        <div class="form-group col-md-5">
+            <label for="login">Логин:</label>
+            <input class="form-control" name="login" />
+        </div>
+        <div class="form-group col-md-5">
+            <label for="password">Пароль:</label>
+            <input class="form-control" type="password" name="password" />
+        </div>
+        <div class="form-group" style="padding-left:15px">
+            <button type="submit" id="submitLogin" class="btn btn-primary">Войти</button>
+            <button type="submit" id="submitAuthorize" class="btn btn-primary">Зарегестрироваться</button>
+        </div>
+    </form>
+    <div class="form-group col-md-5">
+        <select id="selectUser" class="form-control" />
+    </div>
+
+    <script>
+        var tokenKey = "accessToken";
+
+        /// Получение токена. isAuthorize true -- регистрация нового пользователя; false -- авторизация пользователя.
+        async function getTokenAsync(isAuthorize) {
+            const form = document.forms["authorizationForm"];
+            const formData = new FormData();
+
+            formData.append("grant_type", "password");
+            formData.append("login", form.elements["login"].value);
+            formData.append("password", form.elements["password"].value);
+
+            // отправляет запрос и получаем ответ
+            const response = await fetch(isAuthorize ? "/authorize" : "/token", {
+                method: "POST",
+                headers: { "Accept": "application/json" },
+                body: formData
+            });
+            // получаем данные
+            const data = await response.json();
+
+            // если запрос прошел нормально
+            if (response.ok === true) {
+                // сохраняем в хранилище sessionStorage токен доступа
+                sessionStorage.setItem(tokenKey, data.access_token);
+                console.log(data.access_token);
+
+                if (data.role == "admin") {
+                    window.location.href = "admin.html";
+                }
+                else {
+                    window.location.href = "customer.html";
+                }
+            }
+            else {
+                // если произошла ошибка, из errorText получаем текст ошибки
+                allert("Error: " + response.status +"; " + data.errorText);
+            }
+        };
+
+        /// Получение пароля выбранного пользователя и авторизация (для демонстрации).
+        async function setUser(login) {
+            const response = await fetch("/password/" + login, {
+                method: "Get",
+                headers: { "Accept": "application/json" }
+            });
+            const password = await response.json();
+            const form = document.forms["authorizationForm"];
+            form.elements["login"].value = login;
+            form.elements["password"].value = password;
+            getTokenAsync(false);
+        };
+        
+        /// Обработчик кнопки авторизации.
+        document.getElementById("submitLogin").addEventListener("click", e => {
+            e.preventDefault();
+            getTokenAsync(false);
+        });
+
+        /// Обработчик кнопки авторизации.
+        document.getElementById("submitAuthorize").addEventListener("click", e => {
+            e.preventDefault();
+            getTokenAsync(true);
+        });
+
+        // / Обработчик кнопки выбора пользователя (для демонстрации).
+        document.getElementById("selectUser").addEventListener("change", e => {
+            e.preventDefault();
+            const selectUser = document.getElementById("selectUser");
+            const selected = selectUser.options[selectUser.selectedIndex].text;
+            setUser(selected);
+        });
+    </script>
+    
+    <script>
+        /// Заполнение select зарегестированными пользователями из БД.
+        async function getUsers() {
+            const response = await fetch("/users", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+                });
+            if (response.ok === true) {
+                const users = await response.json();
+                let usersSelect = document.getElementById("selectUser")
+                usersSelect.innerHTML = "";
+                var dis = document.createElement('option');
+                dis.setAttribute("disabled", "disabled");
+                dis.setAttribute("selected", "selected");
+                dis.innerHTML = "Выберите пользователя"
+                usersSelect.appendChild(dis);
+                users.forEach(user => {
+                    var opt = document.createElement('option');
+                    opt.value = users;
+                    opt.innerHTML = user;
+                    usersSelect.appendChild(opt);
+                })
+            }
+        }
+
+        /// Обработчик события загрузки страницы.
+        document.addEventListener("DOMContentLoaded", () => {
+            getUsers();
+        });
+    </script>
+</body>
+</html>

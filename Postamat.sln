@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Postamat", "Postamat\Postamat.csproj", "{22053B22-2F86-4B68-A224-81F44561C68E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postamat.Test", "Postamat.Test\Postamat.Test.csproj", "{EC852D55-9851-4CD0-885D-B390F91FB649}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22053B22-2F86-4B68-A224-81F44561C68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22053B22-2F86-4B68-A224-81F44561C68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22053B22-2F86-4B68-A224-81F44561C68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22053B22-2F86-4B68-A224-81F44561C68E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC852D55-9851-4CD0-885D-B390F91FB649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC852D55-9851-4CD0-885D-B390F91FB649}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC852D55-9851-4CD0-885D-B390F91FB649}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC852D55-9851-4CD0-885D-B390F91FB649}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2CB73967-CA9A-4C94-A966-8010833D14F9}
+	EndGlobalSection
+EndGlobal
